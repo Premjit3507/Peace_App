@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dusk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>PEACE IN PLACE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..600&family=Fraunces:opsz,wght@9..144,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./icons.js"></script>
+  <script defer src="./sounds.js"></script>
+  <script defer src="./engine.js"></script>
+  <script defer src="./worlds.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div id="app-root">
+    <header class="header-bar">
+      <div class="wordmark">PEACE IN PLACE</div>
+      <h1 id="screen-heading" class="screen-heading">Worlds</h1>
+    </header>
+
+    <main class="view-container">
+      <!-- WORLDS TAB -->
+      <section id="view-worlds" class="app-view active">
+        <div class="view-scroll-body">
+          <div class="section-block"><div id="featured-hero-container"></div></div>
+          <div class="section-block">
+            <div class="chips-scroller">
+              <button class="chip-filter active" data-mood="all">All</button>
+              <button class="chip-filter" data-mood="Sleep">Sleep</button>
+              <button class="chip-filter" data-mood="Focus">Focus</button>
+              <button class="chip-filter" data-mood="Relax">Relax</button>
+              <button class="chip-filter" data-mood="Meditate">Meditate</button>
+            </div>
+          </div>
+          <div class="section-block">
+            <div class="section-heading-row">
+              <h2 class="section-title">My Worlds</h2>
+              <button id="btn-create-world-shortcut" class="btn-text-action">Create world</button>
+            </div>
+            <div id="my-worlds-carousel" class="worlds-h-scroll"></div>
+          </div>
+          <div class="section-block">
+            <div class="section-heading-row"><h2 class="section-title">Built-in Sanctuaries</h2></div>
+            <div id="worlds-grid" class="worlds-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SOUNDS TAB -->
+      <section id="view-sounds" class="app-view">
+        <div class="view-scroll-body">
+          <div class="search-bar-wrap">
+            <div class="search-input-box">
+              <span class="search-icon-slot" id="search-icon-slot"></span>
+              <input type="search" id="sound-search-input" class="search-input" placeholder="Search your soundscapes..." autocomplete="off">
+            </div>
+          </div>
+          <div class="category-chips-scroller">
+            <button class="category-chip active" data-cat="all">All</button>
+            <button class="category-chip" data-cat="rain">Rain &amp; Storm</button>
+            <button class="category-chip" data-cat="water">Water</button>
+            <button class="category-chip" data-cat="wind">Wind</button>
+            <button class="category-chip" data-cat="fire">Fire</button>
+            <button class="category-chip" data-cat="nature">Nature</button>
+            <button class="category-chip" data-cat="places">Places</button>
+          </div>
+          <div id="sounds-grid" class="sounds-grid"></div>
+        </div>
+      </section>
+
+      <!-- MIXER TAB -->
+      <section id="view-mixer" class="app-view">
+        <div class="view-scroll-body">
+          <div class="mixer-orb-wrap">
+            <canvas id="orb-canvas" class="orb-canvas" width="220" height="220"></canvas>
+            <div id="mixer-active-count" class="mixer-count-label">0 sounds playing</div>
+          </div>
+          <div class="master-card">
+            <div class="master-row">
+              <button id="master-toggle-btn" class="btn-circle-play"><span id="master-btn-icon"></span></button>
+              <div class="master-slider-col">
+                <div class="slider-label-row"><span>Master Volume</span><span id="master-vol-num">85%</span></div>
+                <input type="range" id="master-volume-slider" class="pip-slider" min="0" max="100" value="85">
+              </div>
+              <button id="mixer-clear-all" class="btn-ghost-sm">Clear</button>
+            </div>
+          </div>
+          <div class="section-heading-row"><h2 class="section-title">Active Layers</h2></div>
+          <div id="mixer-layers-list" class="mixer-layers-list"></div>
+        </div>
+      </section>
+
+      <!-- SETTINGS TAB -->
+      <section id="view-settings" class="app-view">
+        <div class="view-scroll-body">
+          <div class="settings-group">
+            <h3 class="settings-group-title">Theme</h3>
+            <div class="segmented-control">
+              <button class="seg-btn active" data-theme-val="dusk">Dusk</button>
+              <button class="seg-btn" data-theme-val="dawn">Dawn</button>
+            </div>
+          </div>
+          <div class="settings-group">
+            <h3 class="settings-group-title">Data</h3>
+            <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;justify-content:space-between;align-items:center;">
+              <div>Reset stored data</div>
+              <button id="btn-erase-data" class="btn-pill-destructive">Erase all</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FLOATING MINI PLAYER -->
+    <aside id="mini-player" class="mini-player hidden">
+      <div class="mini-player-body">
+        <div id="mini-player-open" class="mini-player-info">
+          <div class="mini-orb"></div>
+          <div><div id="mini-title" class="mini-title">Custom Mix</div><div id="mini-subtitle" class="mini-subtitle">0 sounds playing</div></div>
+        </div>
+        <button id="mini-play-toggle" class="btn-circle-mini"><span id="mini-btn-icon"></span></button>
+      </div>
+    </aside>
+
+    <!-- FIXED PINNED BOTTOM NAVIGATION -->
+    <nav id="tab-bar" class="tab-bar">
+      <button class="nav-tab active" data-tab="worlds"><span class="tab-icon" id="tab-icon-worlds"></span><span class="tab-label">Worlds</span></button>
+      <button class="nav-tab" data-tab="sounds"><span class="tab-icon" id="tab-icon-sounds"></span><span class="tab-label">Sounds</span></button>
+      <button class="nav-tab" data-tab="mixer"><span class="tab-icon" id="tab-icon-mixer"></span><span class="tab-label">Mixer</span><span id="tab-mixer-badge" class="tab-badge hidden">0</span></button>
+      <button class="nav-tab" data-tab="settings"><span class="tab-icon" id="tab-icon-settings"></span><span class="tab-label">Settings</span></button>
+    </nav>
+    <div id="toast-host" class="toast-host"></div>
+
+    <!-- MODAL SHEET -->
+    <div id="sheet-backdrop" class="sheet-backdrop hidden">
+      <div class="sheet-container">
+        <div class="sheet-handle-bar"><div class="sheet-handle"></div></div>
+        <div class="sheet-header"><h2 id="sheet-title" class="sheet-title">Create World</h2><button id="sheet-close-btn" class="sheet-close-btn">&times;</button></div>
+        <div id="sheet-body" class="sheet-body"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

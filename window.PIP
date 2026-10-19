@@ -1,0 +1,63 @@
+window.PIP = {
+  // --- icons.js ---
+  icons: {
+    get(id, className = 'pip-icon', ariaHidden = true): string, // Returns SVG string (<svg ...>...</svg>)
+    SPRITES: { [id: string]: string } // SVG inner paths on a 24x24 viewBox
+  },
+
+  // --- sounds.js ---
+  sounds: {
+    CATEGORIES: Array<{ id: string, name: string, tint: string }>,
+    CAT_MAP: { [catId: string]: { name: string, tint: string } },
+    DEFS: Array<{ id: string, name: string, category: string, duration: number, hint: string }>,
+    MAP: { [soundId: string]: SoundDefinition },
+    synth(soundId: string, audioCtx: OfflineAudioContext, duration: number): Promise<AudioBuffer>
+  },
+
+  // --- engine.js ---
+  engine: {
+    init(): Promise<boolean>,
+    play(): Promise<void>,
+    pause(): void,
+    toggleSound(id: string): Promise<boolean>,
+    addSound(id: string, vol?: number): Promise<boolean>,
+    removeSound(id: string): void,
+    setVolume(id: string, vol: number): void,
+    setMaster(vol: number): void,
+    applyMix(layers: Array<{ id: string, volume: number }>, options?: { crossfade?: boolean }): Promise<void>,
+    clear(): void,
+    playUiSound(type: 'tap' | 'toggle' | 'add' | 'remove' | 'save' | 'delete'): void,
+    getAnalyser(): AnalyserNode | null,
+    getState(): {
+      isPlaying: boolean,
+      masterVolume: number,
+      layers: { [id: string]: { volume: number, loading: boolean } },
+      activeCount: number
+    },
+    on(event: string, callback: Function): () => void,
+    off(event: string, callback: Function): void
+  },
+
+  // --- worlds.js ---
+  worlds: {
+    BUILT_IN: Array<WorldDefinition>,
+    MOODS: ['Sleep', 'Focus', 'Relax', 'Meditate'],
+    getUserWorlds(): Array<WorldDefinition>,
+    saveUserWorld(world: WorldDefinition): Promise<boolean>,
+    deleteUserWorld(worldId: string): boolean,
+    duplicateWorld(worldId: string): WorldDefinition | null,
+    getWorldById(worldId: string): WorldDefinition | null,
+    generateSvgCover(name: string, mood: string, seedStr?: string): string // Returns SVG data-URI or SVG string
+  },
+
+  // --- app.js ---
+  app: {
+    showToast(message: string, durationMs?: number): void,
+    openSheet(contentHtml: string, options?: { title?: string, onClose?: Function }): void,
+    closeSheet(): void,
+    openConfirm(options: { title: string, message: string, confirmLabel?: string, isDestructive?: boolean, onConfirm: Function }): void,
+    navigateTo(tabId: 'worlds' | 'sounds' | 'mixer' | 'settings'): void,
+    getSettings(): AppSettings,
+    updateSettings(partial: Partial<AppSettings>): void
+  }
+}

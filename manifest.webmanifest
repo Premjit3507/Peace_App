@@ -1,0 +1,19 @@
+{
+  "name": "PEACE IN PLACE",
+  "short_name": "Peace",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0C1311",
+  "theme_color": "#0C1311",
+  "description": "Ambient soundscape mixer for sleep, focus, relaxation, and meditation.",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
